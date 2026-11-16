@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>SVOI — свои люди в Европе</title>
-<meta name="description" content="SVOI («Свои») — бесплатное приложение для русскоязычных в Европе: знакомства, чаты стран и городов, встречи, люди рядом на карте.">
+<meta name="description" content="SVOI («Свои») — бесплатное приложение для русскоязычных в Европе: лента с фото и Reels, знакомства, чаты стран и городов, встречи, люди рядом на карте.">
 <meta name="theme-color" content="#0b0b0d">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://svoiapp.info/">
 <meta property="og:title" content="SVOI — свои люди в Европе">
-<meta property="og:description" content="Знакомства, чаты городов и встречи для русскоязычных в Европе. Бесплатно.">
+<meta property="og:description" content="Лента, Reels, знакомства, чаты городов и встречи для русскоязычных в Европе. Бесплатно.">
 <meta property="og:image" content="https://svoiapp.info/assets/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/assets/svoi-symbol.png">
@@ -188,6 +188,7 @@ footer img{height:22px;opacity:.85}
   <div class="wrap">
     <a href="/" aria-label="SVOI — на главную"><img src="/assets/svoi-logo.png" alt="SVOI"></a>
     <nav>
+      <a class="hide-m" href="#feed">Лента</a>
       <a class="hide-m" href="#features">Возможности</a>
       <a class="hide-m" href="#how">Как это работает</a>
       <a class="hide-m" href="#faq">Вопросы</a>
@@ -203,13 +204,13 @@ footer img{height:22px;opacity:.85}
     <div>
       <span class="pill reveal"><i></i>Для русскоязычных в Европе · 18+</span>
       <h1 class="reveal d1">Свои люди —<br><span class="grad">рядом с тобой</span></h1>
-      <p class="lead reveal d2">Знакомства, чаты стран и городов, встречи и люди рядом на карте. Найди своих в Милане, Берлине, Барселоне или Праге — и встреться уже сегодня.</p>
+      <p class="lead reveal d2">Лента с фото и Reels, знакомства, чаты стран и городов, встречи и люди рядом на карте. Найди своих в Милане, Берлине, Барселоне или Праге — и встреться уже сегодня.</p>
       <div class="cta reveal d3">
         <a class="btn btn-white" href="https://apps.apple.com/app/id6835577482">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
           Скачать в App Store
         </a>
-        <a class="btn btn-ghost" href="#features">Что внутри</a>
+        <a class="btn btn-ghost" href="#feed">Что внутри</a>
       </div>
       <div class="trust reveal d3">
         <span>✓ <b>Бесплатно</b> — все функции</span>
@@ -218,9 +219,9 @@ footer img{height:22px;opacity:.85}
       </div>
     </div>
     <div class="phones" id="phones" aria-hidden="true">
-      <div class="phone p2"><img src="/assets/s-italy.jpg" alt="" loading="eager"></div>
+      <div class="phone p2"><img src="/assets/s-feed.jpg" alt="" loading="eager"></div>
       <div class="phone p1"><img src="/assets/s-discover.jpg" alt="" loading="eager"></div>
-      <div class="phone p3"><img src="/assets/s-map.jpg" alt="" loading="eager"></div>
+      <div class="phone p3"><img src="/assets/s-reels.jpg" alt="" loading="eager"></div>
       <div class="bubble bu1"><b>● Свободна сегодня</b><small>Мария · кофе в центре</small></div>
       <div class="bubble bu2">🏠 Земляк рядом<small>Тоже из Петербурга · 2 км</small></div>
     </div>
@@ -242,6 +243,45 @@ footer img{height:22px;opacity:.85}
     <div class="stat reveal d3"><b>18+</b><span>только взрослые, модерация</span></div>
   </div>
 </div>
+
+<section class="block" id="feed">
+  <div class="wrap">
+    <div class="center reveal">
+      <div class="eyebrow">Новое · Лента</div>
+      <h2>Фото, видео и Reels<br>от своих людей</h2>
+      <p class="sub">Делитесь жизнью за границей: публикуйте фото и видео с описанием и #хэштегами, подписывайтесь на своих и смотрите, что происходит в вашем городе.</p>
+    </div>
+
+    <div class="bento">
+      <div class="card c-third glow-coral reveal">
+        <span class="tag t-new">НОВОЕ</span>
+        <h3>Лента</h3>
+        <p>Рекомендации, подписки и «Мой город». Лайки, комментарии с ответами и кликабельные #хэштеги.</p>
+        <img class="shot" src="/assets/s-feed.jpg" alt="Лента публикаций" loading="lazy">
+      </div>
+      <div class="card c-third glow-violet reveal d1">
+        <span class="tag t-violet">Reels</span>
+        <h3>Короткие видео</h3>
+        <p>Листайте видео на весь экран, ставьте лайки и отправляйте понравившееся друзьям в личку.</p>
+        <img class="shot" src="/assets/s-reels.jpg" alt="Reels" loading="lazy">
+      </div>
+      <div class="card c-third glow-green reveal d2">
+        <span class="tag t-gold">Профиль</span>
+        <h3>@юзернейм и подписчики</h3>
+        <p>Свой профиль как в соцсети: публикации, подписчики и подписки. Найдут по имени или @юзернейму.</p>
+        <img class="shot" src="/assets/s-profile.jpg" alt="Профиль с публикациями" loading="lazy">
+      </div>
+      <div class="card c-full c-events reveal">
+        <div>
+          <span class="tag t-coral">Поиск</span>
+          <h3>Рекомендации людей рядом</h3>
+          <p>Откройте поиск — и сразу увидите своих из вашего города и страны, а ниже — интересные публикации. Подписка в одно касание.</p>
+        </div>
+        <div class="shotbox"><img class="shot" src="/assets/s-search.jpg" alt="Поиск и рекомендации" loading="lazy"></div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section class="block" id="features">
   <div class="wrap">
@@ -372,12 +412,13 @@ footer img{height:22px;opacity:.85}
       <h2>Частые вопросы</h2>
     </div>
     <div class="faq">
-      <details class="reveal"><summary>Это правда бесплатно?</summary><p>Да. Все функции — знакомства, чаты, карта, встречи, голосовые — бесплатны. Подписок нет.</p></details>
+      <details class="reveal"><summary>Это правда бесплатно?</summary><p>Да. Все функции — лента и Reels, знакомства, чаты, карта, встречи, голосовые — бесплатны. Подписок нет.</p></details>
+      <details class="reveal"><summary>Можно публиковать фото и видео?</summary><p>Да. В ленте можно выкладывать до 20 фото или видео с описанием и #хэштегами — публикация появляется сразу. Можно ставить лайки, комментировать, отвечать на комментарии и делиться постами в личку. На любую публикацию можно пожаловаться, а автора — заблокировать.</p></details>
       <details class="reveal"><summary>Нужен ли взаимный лайк, чтобы написать?</summary><p>Нет. Написать можно любому сразу. Если хотите, в настройках можно разрешить сообщения только от взаимных симпатий.</p></details>
       <details class="reveal"><summary>Кто видит, где я нахожусь?</summary><p>Никто не видит точный адрес. Другие видят город и примерное расстояние, а на карте — только район размером около 2 км. Геолокацию можно выключить.</p></details>
       <details class="reveal"><summary>В каких странах работает SVOI?</summary><p>По всей Европе: Италия, Германия, Испания, Франция, Чехия, Кипр, Португалия, Сербия, Черногория, Польша и другие — больше 30 стран и 100 городских чатов.</p></details>
       <details class="reveal"><summary>Что такое «Свободен сегодня»?</summary><p>Это отметка на 24 часа: вы показываете, что готовы сегодня к кофе, прогулке, ужину или спорту. Таких людей видно первыми в поиске и на карте.</p></details>
-      <details class="reveal"><summary>Как удалить аккаунт?</summary><p>Профиль → Настройки → Удалить аккаунт. Анкета, фото и сообщения удаляются сразу. Вопросы — на <a href="mailto:team@svoiapp.info">team@svoiapp.info</a>.</p></details>
+      <details class="reveal"><summary>Как удалить аккаунт?</summary><p>Профиль → Настройки → Удалить аккаунт. Анкета, фото, публикации и сообщения удаляются сразу. Вопросы — на <a href="mailto:team@svoiapp.info">team@svoiapp.info</a>.</p></details>
     </div>
 
     <div class="final reveal">
