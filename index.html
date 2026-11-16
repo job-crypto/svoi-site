@@ -35,10 +35,12 @@ img{display:block;max-width:100%}
 .top nav{display:flex;gap:26px;align-items:center}
 .top nav a{color:var(--muted);text-decoration:none;font-size:15px;transition:color .2s}
 .top nav a:hover{color:#fff}
+.top nav a.btn,.top nav a.btn:hover{color:#000}
+.top nav a.btn:hover{background:#ffe3dd}
 .btn{display:inline-flex;align-items:center;gap:10px;border-radius:999px;font-weight:600;text-decoration:none;transition:transform .2s,box-shadow .2s,background .2s;white-space:nowrap}
 .btn:hover{transform:translateY(-2px)}
 .btn-white{background:#fff;color:#000;padding:15px 26px;font-size:16px;box-shadow:0 10px 40px rgba(255,255,255,.12)}
-.btn-white:hover{box-shadow:0 14px 50px rgba(255,255,255,.22)}
+.btn-white:hover{box-shadow:0 14px 50px rgba(255,255,255,.22);background:#ffe9e4;color:#000}
 .btn-ghost{color:#fff;padding:15px 22px;font-size:16px;border:1px solid rgba(255,255,255,.18)}
 .btn-ghost:hover{background:rgba(255,255,255,.06)}
 .btn-sm{padding:9px 16px;font-size:14px}
@@ -271,7 +273,7 @@ footer img{height:22px;opacity:.85}
       <div class="card c-third reveal d1">
         <span class="tag t-gold">Рядом</span>
         <h3>Люди на карте</h3>
-        <p>Кто рядом прямо сейчас. Точный адрес никто не видит — только примерные точки.</p>
+        <p>Кто рядом прямо сейчас. Показываем только район ~2 км — точный адрес не видит никто.</p>
         <img class="shot" src="/assets/s-map.jpg" alt="Карта людей рядом" loading="lazy">
       </div>
       <div class="card c-third reveal d2">
@@ -355,7 +357,7 @@ footer img{height:22px;opacity:.85}
     <div class="safe">
       <div class="reveal"><b>Только 18+</b><span>Сервис для взрослых. Подозрительные анкеты удаляем.</span></div>
       <div class="reveal d1"><b>Жалоба в один тап</b><span>В каждой анкете и чате. Модерация отвечает в течение 24 часов.</span></div>
-      <div class="reveal d2"><b>Адрес скрыт</b><span>Координаты округляются, на карте — смещённые точки.</span></div>
+      <div class="reveal d2"><b>Адрес скрыт</b><span>На карте — только район ~2 км, а не точка. Дом найти нельзя.</span></div>
       <div class="reveal"><b>Данные в ЕС</b><span>Серверы во Франкфурте, работаем по GDPR.</span></div>
       <div class="reveal d1"><b>Защита от спама</b><span>Лимиты на новые диалоги и фильтр оскорблений.</span></div>
       <div class="reveal d2"><b>Автоудаление</b><span>Сообщения и файлы удаляются через 60 дней.</span></div>
@@ -372,7 +374,7 @@ footer img{height:22px;opacity:.85}
     <div class="faq">
       <details class="reveal"><summary>Это правда бесплатно?</summary><p>Да. Все функции — знакомства, чаты, карта, встречи, голосовые — бесплатны. Подписок нет.</p></details>
       <details class="reveal"><summary>Нужен ли взаимный лайк, чтобы написать?</summary><p>Нет. Написать можно любому сразу. Если хотите, в настройках можно разрешить сообщения только от взаимных симпатий.</p></details>
-      <details class="reveal"><summary>Кто видит, где я нахожусь?</summary><p>Никто не видит точный адрес. Другие видят город и примерное расстояние, а на карте — смещённую точку. Геолокацию можно выключить.</p></details>
+      <details class="reveal"><summary>Кто видит, где я нахожусь?</summary><p>Никто не видит точный адрес. Другие видят город и примерное расстояние, а на карте — только район размером около 2 км. Геолокацию можно выключить.</p></details>
       <details class="reveal"><summary>В каких странах работает SVOI?</summary><p>По всей Европе: Италия, Германия, Испания, Франция, Чехия, Кипр, Португалия, Сербия, Черногория, Польша и другие — больше 30 стран и 100 городских чатов.</p></details>
       <details class="reveal"><summary>Что такое «Свободен сегодня»?</summary><p>Это отметка на 24 часа: вы показываете, что готовы сегодня к кофе, прогулке, ужину или спорту. Таких людей видно первыми в поиске и на карте.</p></details>
       <details class="reveal"><summary>Как удалить аккаунт?</summary><p>Профиль → Настройки → Удалить аккаунт. Анкета, фото и сообщения удаляются сразу. Вопросы — на <a href="mailto:team@svoiapp.info">team@svoiapp.info</a>.</p></details>
