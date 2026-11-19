@@ -1,0 +1,56 @@
+-- 027: демо-карточки «Я — специалист» в справочнике (от тестовых анкет, видят только команда и ревьюер).
+begin;
+
+create temp table demo_u on commit drop as
+select p.username, p.id, p.city, p.country from public.profiles p
+join public.test_accounts t on t.user_id = p.id and t.kind = 'test';
+
+create temp table demo_s (author text, category text, name text, description text, address text, reviews text[][]) on commit drop;
+insert into demo_s values
+('artem.chef.mi', 'food', 'Артём — повар, готовлю на заказ',
+ 'Пельмени, вареники, голубцы и домашняя выпечка. Готовлю на праздники и для офисов, привезу по Милану. Пишите за 2–3 дня.',
+ 'Район Брера',
+ array[array['anna.design.mi','5','Заказывали пельмени на день рождения — вкусно, как дома.']]),
+('anna.design.mi', 'repair', 'Анна — дизайнер интерьеров',
+ 'Проекты квартир и помощь с ремонтом: подберу мастеров и материалы, объясню по-русски, о чём договориться с итальянской бригадой.',
+ 'Милан и пригороды',
+ array[array['artem.chef.mi','5','Помогла с ремонтом кухни, сэкономили и время, и нервы.']]),
+('polina.berlin', 'education', 'Полина — преподаватель немецкого',
+ 'Готовлю к B1 и Leben in Deutschland. Занятия онлайн или в кафе в Митте, первое занятие — знакомство.',
+ 'Онлайн и район Митте',
+ array[array['olga.berlin','5','Сдала B1 с первого раза, спасибо за терпение!'], array['dima.dev.berlin','5','Понятно объясняет грамматику.']]),
+('dima.dev.berlin', 'other', 'Дмитрий — настрою компьютер и телефон',
+ 'Перенесу данные, настрою интернет, ELSTER и банковские приложения. Помогаю пожилым родителям разобраться с техникой.',
+ 'Берлин, выезд на дом',
+ array[array['polina.berlin','5','Настроил всё маме за вечер, очень терпеливо.']]),
+('pavel.ffm', 'auto', 'Павел — автомеханик',
+ 'Ремонт и ТО любых марок, помогу подготовить машину к TÜV. Объясню, что действительно нужно менять.',
+ 'Оффенбах, свой гараж',
+ array[array['ksenia.ffm','5','Честно сказал, что можно не менять — сэкономила 300 евро.']]),
+('max.munich', 'doctor', 'Максим — физиотерапевт',
+ 'Массаж и восстановление после травм, работаю по рецепту врача и частно. Говорю по-русски и по-немецки.',
+ 'Район Швабинг',
+ array[array['vika.munich','5','После двух недель занятий спина больше не болит.']]);
+
+create temp table demo_s_ids on commit drop as
+with ins as (
+  insert into public.places (author_id, category, name, description, city, country, address, is_self, created_at)
+  select u.id, s.category, s.name, s.description, u.city, u.country, s.address, true, now() - interval '4 days'
+  from demo_s s join demo_u u on u.username = s.author
+  where not exists (select 1 from public.places x where x.author_id = u.id and x.name = s.name)
+  returning id, name)
+select ins.id, s.reviews from ins join demo_s s on s.name = ins.name;
+
+insert into public.place_reviews (place_id, author_id, rating, body, created_at)
+select d.id, u.id, r.rating::smallint, r.body, now() - (interval '1 day' * (1 + r.n))
+from demo_s_ids d
+cross join lateral (
+  select d.reviews[i][1] as username, d.reviews[i][2]::int as rating, d.reviews[i][3] as body, i as n
+  from generate_subscripts(d.reviews, 1) as i) r
+join demo_u u on u.username = r.username
+on conflict do nothing;
+
+select public.place_recount(id) from demo_s_ids;
+
+select 'ok 027', (select count(*) from public.places where is_self) as self_places;
+commit;
