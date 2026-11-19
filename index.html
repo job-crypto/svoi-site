@@ -204,6 +204,15 @@ html{overflow-x:hidden}
 .install-card .txt span{font-size:12.5px;color:var(--muted)}
 .install-card .go{flex:none;height:36px;padding:0 14px;border-radius:999px;background:#fff;color:#000;font:inherit;font-weight:600;font-size:14px;border:0;display:inline-flex;align-items:center}
 .install-card .x{position:absolute;top:-9px;right:-7px;width:26px;height:26px;border-radius:50%;background:#3a3a40;color:#fff;border:1px solid rgba(255,255,255,.14);font-size:17px;line-height:1;display:flex;align-items:center;justify-content:center;padding:0}
+
+.cta-note{color:var(--muted);font-size:14px;margin:14px 0 0}
+.iphone-soon{padding:0 0 40px}
+.soon-card{display:flex;align-items:center;gap:14px;max-width:640px;margin:0 auto;padding:16px 18px;border-radius:20px;background:var(--surface);border:1px solid var(--line)}
+.soon-card>svg{width:26px;height:26px;flex:none;color:var(--muted)}
+.soon-card div{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.35}
+.soon-card div span{color:var(--muted);font-size:14px}
+.soon-badge{flex:none;font-size:13px;font-weight:600;padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.18);color:var(--muted);white-space:nowrap}
+@media(max-width:560px){.soon-card{flex-wrap:wrap}.soon-card div{flex:1 1 calc(100% - 46px)}.soon-badge{margin-left:40px}.hero .cta .btn,.final .cta .btn{width:100%;max-width:340px;justify-content:center;text-align:center}}
 </style>
 </head>
 <body>
@@ -216,7 +225,7 @@ html{overflow-x:hidden}
       <a class="hide-m" href="#features">Возможности</a>
       <a class="hide-m" href="#how">Как это работает</a>
       <a class="hide-m" href="#faq">Вопросы</a>
-      <a class="hide-m" href="https://apps.apple.com/app/id6835577482">Скачать</a>
+      <a class="hide-m" href="#iphone">iPhone</a>
       <span class="auth-nav" id="authNav">
         <a class="nav-login" href="/app/#/login">Войти</a>
         <a class="btn btn-white btn-sm" href="/app/#/signup">Регистрация</a>
@@ -234,12 +243,10 @@ html{overflow-x:hidden}
       <h1 class="reveal d1">Свои люди —<br><span class="grad">рядом с тобой</span></h1>
       <p class="lead reveal d2">Лента с фото и Reels, знакомства, чаты стран и городов, встречи и люди рядом на карте. Найди своих в Милане, Берлине, Барселоне или Праге — и встреться уже сегодня.</p>
       <div class="cta reveal d3">
-        <a class="btn btn-white" href="https://apps.apple.com/app/id6835577482">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
-          Скачать в App Store
-        </a>
-        <a class="btn btn-ghost web-cta" href="/app/#/signup">Открыть в браузере</a>
+        <a class="btn btn-white web-signup" href="/app/#/signup">Зарегистрироваться бесплатно</a>
+        <a class="btn btn-ghost web-login" href="/app/#/login">Войти</a>
       </div>
+      <p class="cta-note reveal d3">Работает прямо в браузере — на телефоне и компьютере. Без скачивания.</p>
       <div class="trust reveal d3">
         <span>✓ <b>Бесплатно</b> — все функции</span>
         <span>✓ Без рекламы</span>
@@ -451,14 +458,20 @@ html{overflow-x:hidden}
 
     <div class="final reveal">
       <h2>Найди своих уже сегодня</h2>
-      <p class="sub" style="margin:0 auto">Скачай SVOI и загляни в чат своего города.</p>
+      <p class="sub" style="margin:0 auto">Регистрация за минуту — прямо на сайте, без скачивания.</p>
       <div class="cta">
-        <a class="btn btn-white" href="https://apps.apple.com/app/id6835577482">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
-          Скачать в App Store
-        </a>
-        <a class="btn btn-ghost web-cta" href="/app/#/signup">Открыть в браузере</a>
+        <a class="btn btn-white web-signup" href="/app/#/signup">Зарегистрироваться бесплатно</a>
+        <a class="btn btn-ghost web-login" href="/app/#/login">Войти</a>
       </div>
+    </div>
+  </div>
+</section>
+<section class="iphone-soon" id="iphone">
+  <div class="wrap">
+    <div class="soon-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
+      <div><b>Приложение для iPhone</b><span>Скоро в App Store. Аккаунт с сайта подойдёт и для приложения.</span></div>
+      <span class="soon-badge">Скоро в App Store</span>
     </div>
   </div>
 </section>
@@ -486,7 +499,7 @@ html{overflow-x:hidden}
     if(session&&session.user){
       var nav=document.getElementById('authNav');
       nav.innerHTML='<a class="btn btn-white btn-sm" href="/app/#/feed">Открыть Свои</a>';
-      document.querySelectorAll('.web-cta').forEach(function(a){a.href='/app/#/feed';a.textContent='Открыть в браузере'});
+      document.querySelectorAll('.web-signup').forEach(function(a){a.href='/app/#/feed';a.textContent='Открыть Свои'});document.querySelectorAll('.web-login').forEach(function(a){a.style.display='none'});
     }
   }catch(e){}
   var top=document.getElementById('top');
