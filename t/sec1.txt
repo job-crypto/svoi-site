@@ -1,0 +1,16 @@
+-- security audit (read-only)
+select json_build_object(
+ 'tables_without_rls', (select coalesce(json_agg(c.relname order by c.relname), '[]'::json) from pg_class c join pg_namespace n on n.oid=c.relnamespace
+    where n.nspname='public' and c.relkind='r' and not c.relrowsecurity),
+ 'definer_without_search_path', (select coalesce(json_agg(p.proname order by p.proname), '[]'::json) from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+    where n.nspname='public' and p.prosecdef and not exists (select 1 from unnest(coalesce(p.proconfig,'{}')) cfg where cfg like 'search_path=%')),
+ 'anon_executable_definer', (select coalesce(json_agg(p.proname order by p.proname), '[]'::json) from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+    where n.nspname='public' and p.prosecdef and has_function_privilege('anon', p.oid, 'EXECUTE')),
+ 'anon_table_select', (select coalesce(json_agg(c.relname order by c.relname), '[]'::json) from pg_class c join pg_namespace n on n.oid=c.relnamespace
+    where n.nspname='public' and c.relkind in ('r','v') and has_table_privilege('anon', c.oid, 'SELECT')
+      and exists (select 1 from pg_policies pl where pl.schemaname='public' and pl.tablename=c.relname and ('anon'=any(pl.roles) or 'public'=any(pl.roles)) and pl.cmd in ('SELECT','ALL'))),
+ 'views_not_invoker', (select coalesce(json_agg(c.relname), '[]'::json) from pg_class c join pg_namespace n on n.oid=c.relnamespace
+    where n.nspname='public' and c.relkind='v' and not coalesce((select bool_or(o like 'security_invoker=%true') from unnest(c.reloptions) o), false)),
+ 'friendships_policies', (select coalesce(json_agg(policyname||':'||cmd||':'||array_to_string(roles,',')), '[]'::json) from pg_policies where schemaname='public' and tablename='friendships'),
+ 'storage_public_buckets', (select coalesce(json_agg(id||':'||public::text), '[]'::json) from storage.buckets)
+) as audit;
