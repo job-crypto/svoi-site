@@ -1,0 +1,53 @@
+-- =====================================================================
+--  SVOI · 026 — «Справочник»: человек может добавить себя как специалиста
+--  (механик, врач, парикмахер, юрист…), со своим городом и страной.
+--  place_create получает необязательный p_is_self (старые вызовы работают как раньше).
+-- =====================================================================
+
+begin;
+
+alter table public.places add column if not exists is_self boolean not null default false;
+
+create or replace function public.place_json(x public.places, me uuid)
+returns jsonb language sql stable security definer set search_path = public as $$
+  select jsonb_build_object(
+    'id', x.id, 'category', x.category, 'name', x.name, 'description', x.description, 'city', x.city, 'country', x.country,
+    'address', x.address, 'phone', x.phone, 'link', x.link, 'photos', to_jsonb(x.photos),
+    'rating', case when x.reviews_count > 0 then round(x.rating_sum::numeric / x.reviews_count, 1) end,
+    'reviews_count', x.reviews_count, 'created_at', x.created_at, 'is_mine', x.author_id = me,
+    'is_self', x.is_self,
+    'my_rating', (select r.rating from public.place_reviews r where r.place_id = x.id and r.author_id = me),
+    'author', (select public.mini_profile_json(p) from public.profiles p where p.id = x.author_id))
+$$;
+
+drop function if exists public.place_create(text, text, text, text, text, text, text, text, text[]);
+create or replace function public.place_create(p_category text, p_name text, p_description text default '', p_city text default null,
+                                               p_country text default null, p_address text default '', p_phone text default '',
+                                               p_link text default '', p_photos text[] default '{}', p_is_self boolean default false)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare me public.profiles := public.require_me(); created public.places; l text := btrim(coalesce(p_link, ''));
+begin
+  if char_length(btrim(coalesce(p_name, ''))) < 2 then raise exception 'bad_post'; end if;
+  if (select count(*) from public.places where author_id = me.id and created_at > now() - interval '1 day') >= 5 then
+    raise exception 'daily_limit';
+  end if;
+  if coalesce(p_is_self, false)
+     and (select count(*) from public.places where author_id = me.id and is_self and not is_removed) >= 3 then
+    raise exception 'daily_limit';
+  end if;
+  if l <> '' and l !~* '^https?://' then l := 'https://' || l; end if;
+  insert into public.places (author_id, category, name, description, city, country, address, phone, link, photos, is_self)
+  values (me.id, p_category, left(public.clean_text(btrim(p_name)), 80), left(public.clean_text(btrim(coalesce(p_description, ''))), 1000),
+          left(btrim(coalesce(nullif(btrim(coalesce(p_city, '')), ''), me.city, '')), 60), coalesce(nullif(p_country, ''), me.country, ''),
+          left(btrim(coalesce(p_address, '')), 160), left(btrim(coalesce(p_phone, '')), 40), left(l, 200),
+          public.clean_photos(p_photos, me.id), coalesce(p_is_self, false))
+  returning * into created;
+  return public.place_json(created, me.id);
+end $$;
+
+revoke all on function public.place_create(text, text, text, text, text, text, text, text, text[], boolean) from public, anon;
+grant execute on function public.place_create(text, text, text, text, text, text, text, text, text[], boolean) to authenticated;
+
+select 'ok 026' as status;
+
+commit;
