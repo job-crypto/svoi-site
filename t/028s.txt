@@ -1,0 +1,30 @@
+-- 028: отдельная ошибка для лимита карточек «Я — специалист» (не больше трёх).
+begin;
+create or replace function public.place_create(p_category text, p_name text, p_description text default '', p_city text default null,
+                                               p_country text default null, p_address text default '', p_phone text default '',
+                                               p_link text default '', p_photos text[] default '{}', p_is_self boolean default false)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare me public.profiles := public.require_me(); created public.places; l text := btrim(coalesce(p_link, ''));
+begin
+  if char_length(btrim(coalesce(p_name, ''))) < 2 then raise exception 'bad_post'; end if;
+  if (select count(*) from public.places where author_id = me.id and created_at > now() - interval '1 day') >= 5 then
+    raise exception 'daily_limit';
+  end if;
+  if coalesce(p_is_self, false)
+     and (select count(*) from public.places where author_id = me.id and is_self and not is_removed) >= 3 then
+    raise exception 'self_limit';
+  end if;
+  if l <> '' and l !~* '^https?://' then l := 'https://' || l; end if;
+  insert into public.places (author_id, category, name, description, city, country, address, phone, link, photos, is_self)
+  values (me.id, p_category, left(public.clean_text(btrim(p_name)), 80), left(public.clean_text(btrim(coalesce(p_description, ''))), 1000),
+          left(btrim(coalesce(nullif(btrim(coalesce(p_city, '')), ''), me.city, '')), 60), coalesce(nullif(p_country, ''), me.country, ''),
+          left(btrim(coalesce(p_address, '')), 160), left(btrim(coalesce(p_phone, '')), 40), left(l, 200),
+          public.clean_photos(p_photos, me.id), coalesce(p_is_self, false))
+  returning * into created;
+  return public.place_json(created, me.id);
+end $$;
+
+revoke all on function public.place_create(text, text, text, text, text, text, text, text, text[], boolean) from public, anon;
+grant execute on function public.place_create(text, text, text, text, text, text, text, text, text[], boolean) to authenticated;
+select 'ok 028';
+commit;
