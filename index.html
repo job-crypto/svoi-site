@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<script>/* открыто с ярлыка на экране «Домой» — сразу в приложение */if((window.matchMedia&&matchMedia("(display-mode: standalone)").matches)||navigator.standalone===true){location.replace("/app/")}</script>
+<script>/* открыто с ярлыка на экране «Домой» — сразу в приложение; уже вошли — сразу на свою страницу (svoiapp.info/?site — показать сайт) */(function(){try{if((window.matchMedia&&matchMedia("(display-mode: standalone)").matches)||navigator.standalone===true){location.replace("/app/");return}if(/[?&]site\b/.test(location.search))return;var s=JSON.parse(localStorage.getItem("svoi-web-auth")||"null");if(s&&s.user&&s.refresh_token){location.replace("/app/#/me")}}catch(e){}})()</script>
 <title>SVOI — свои люди в Европе</title>
 <meta name="description" content="SVOI («Свои») — бесплатное приложение для русскоязычных в Европе: лента с фото и Reels, знакомства, чаты стран и городов, встречи, люди рядом на карте.">
 <meta name="theme-color" content="#0b0b0d">
